@@ -1,32 +1,65 @@
 ---
+layout: none
 ---
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>我的云书库</title>
     <style>
-        body { font-family: sans-serif; max-width: 800px; margin: 20px auto; padding: 0 20px; background-color: #f4f4f4; }
-        h1 { text-align: center; color: #333; }
-        .book-list { list-style: none; padding: 0; }
-        .book-item { background: white; margin-bottom: 10px; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        .book-item a { text-decoration: none; color: #007bff; font-size: 18px; display: block; }
-        .book-item a:hover { color: #0056b3; }
-        .tip { font-size: 12px; color: #666; text-align: center; margin-top: 20px; }
+        * { box-sizing: border-box; }
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            max-width: 900px; 
+            margin: 20px auto; 
+            padding: 0 20px; 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); }
+        h1 { text-align: center; color: #333; margin-bottom: 30px; }
+        .book-list { list-style: none; padding: 0; margin: 0; }
+        .book-item { 
+            background: #f8f9fa; 
+            margin-bottom: 12px; 
+            padding: 18px 20px; 
+            border-radius: 8px; 
+            transition: all 0.3s;
+            border-left: 4px solid #667eea;
+        }
+        .book-item:hover { transform: translateX(5px); box-shadow: 0 4px 12px rgba(0,0,0,0.15); }
+        .book-item a { 
+            text-decoration: none; 
+            color: #333; 
+            font-size: 16px; 
+            font-weight: 500;
+        }
+        .book-item a:hover { color: #667eea; }
+        .empty { text-align: center; color: #999; padding: 40px; }
+        .tip { font-size: 13px; color: #666; text-align: center; margin-top: 30px; }
     </style>
 </head>
 <body>
-    <h1>📚 我的云端书架</h1>
-    <ul class="book-list">
-        {% for file in site.static_files %}
-            {% if file.extname == ".pdf" %}
-            <li class="book-item">
-                <a href="{{ site.baseurl }}{{ file.path }}" target="_blank">📄 {{ file.name }}</a>
-            </li>
+    <div class="container">
+        <h1>📚 我的云端书架</h1>
+        <ul class="book-list">
+            {% assign pdf_count = 0 %}
+            {% for file in site.static_files %}
+                {% if file.extname == ".pdf" %}
+                    {% assign pdf_count = pdf_count | plus: 1 %}
+                    <li class="book-item">
+                        <a href="{{ site.baseurl }}{{ file.path }}" target="_blank">
+                            📄 {{ file.basename }}
+                        </a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+            {% if pdf_count == 0 %}
+                <p class="empty">📭 书架还是空的，快去上传你的第一本书吧！</p>
             {% endif %}
-        {% endfor %}
-    </ul>
-    <p class="tip">提示：上传新书后请等待 1-2 分钟刷新页面</p>
+        </ul>
+        <p class="tip">💡 提示：点击书名即可在线阅读 · 共收藏 {{ pdf_count }} 本图书</p>
+    </div>
 </body>
 </html>

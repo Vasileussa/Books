@@ -49,7 +49,7 @@ layout: none
                 {% if file.extname == ".pdf" %}
                     {% assign pdf_count = pdf_count | plus: 1 %}
                     <li class="book-item">
-                        <a href="{{ site.baseurl }}{{ file.path }}" target="_blank">
+                        <a href="{{ file.path | relative_url }}" target="_blank">
                             📄 {{ file.basename }}
                         </a>
                     </li>
